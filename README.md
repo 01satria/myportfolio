@@ -11,7 +11,6 @@
 
 Step inside, and witness the pulse of ideas transforming from silent contemplation into an architecture of light on the screen..
 
----
 
 
 ## ⚙️ The Core Technologies: Pillars of Our Architecture
@@ -29,7 +28,6 @@ This project is built upon a duality of technology—a synthesis of low-level po
 
 We believe in a clear separation between **Processing Power (C)** and **User Experience (The Web Stack)**. This approach ensures that the project is not only **fast and efficient** behind the scenes but also **intuitive and responsive** in front of the user.
 
----
 
 
 ## 🙏 Acknowledgements & Inspiration
@@ -41,11 +39,9 @@ This project would not be complete without the vibrant developer community and t
 | **CodePen** | A truly vital hub for web developers. Thank you for fostering a culture of **creativity, experimentation, and rapid prototyping**. The countless examples and community solutions found here constantly accelerate front-end development and inspire new ideas. |
 | **UIverse** | An unparalleled resource for high-quality, pre-built UI elements and components. Thank you for making beautiful and complex designs accessible to everyone, greatly **simplifying the styling process** and pushing the boundaries of interface aesthetics. |
 
----
 
 
 ## ©️ License
 
 Distributed under the MIT License. See the included `LICENSE` file for more information.
 
----
