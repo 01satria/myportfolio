@@ -19,9 +19,9 @@ Step inside, and witness the pulse of ideas transforming from silent contemplati
 
 
 
-## ⚙️ The Core Technologies: Pillars of Our Architecture
+## ⚙️ The Core Technologies: Pillars of This Architecture
 
-This project is built upon a duality of technology—a synthesis of low-level power for maximum performance and the flexibility of the web stack for a dynamic interface.
+This project is built upon a duality of technology synthesis of low level power for maximum performance and the flexibility of the web stack for a dynamic interface.
 
 |          Component         |   Technology   |     Ratio (%)     |                                                                                                                      Philosophy                                                                                                                      |
 | :------------------------: | :------------: | :---------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
