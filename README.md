@@ -1,6 +1,6 @@
 # ✨ [Call me Satria..]
 
-[![Typing SVG](https://readme-typing-svg.demolab.com/?lines=Page+of+Shantan+Indonesia;Second+line+of+text)]
+[![Typing SVG](https://readme-typing-svg.demolab.com/?lines=Page+of+Shantan+Indonesia;Second+line+of+text)](https://git.io/typing-svg)
 > 🚀 [Shantan Indonesia]
 <p align="left">
   <img src="https://komarev.com/ghpvc/?username=shantant&label=Profile%20views&color=000000&style=flat" alt="shantant" />
