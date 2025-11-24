@@ -7,7 +7,6 @@
 <p align="left">
   <img src="https://komarev.com/ghpvc/?username=shantant&label=Profile%20views&color=000000&style=flat" alt="shantant" />
 </p>
-
 [![License](https://img.shields.io/badge/License-GPL-blue.svg)](https://opensource.org/licenses/MIT)
 [![Project Status](https://img.shields.io/badge/Status-Official-brightgreen)](#[YOUR_STATUS_SECTION])
 [![GitHub language count](https://img.shields.io/github/languages/count/shantant/me)](https://github.com/shantant/me)
