@@ -170,6 +170,7 @@ h1 {
 
 .gallery {
     display: grid;
+    width: inherit;
     align-self: center;
     grid-template-columns: repeat(3, minmax(250px, 1fr));
     gap: 0.5rem;
@@ -191,7 +192,7 @@ h1 {
 
 .gallery-item-inner {
     position: relative;
-    height: 250px;
+    height: 300px;
     padding-top: 75%;
     overflow: hidden;
 }
@@ -402,6 +403,10 @@ h1 {
     .gallery-controls {
         flex-direction: column;
         align-items: stretch;
+    }
+
+    .gallery-item-inner {
+        height: 200px;
     }
 
     .gallery {
