@@ -1,4 +1,4 @@
-# ✨ [Call me Satria..] ⁀➴ [Hit me up](https://shantant.github.io/me/)
+# ✨ [Call me Satria..] ⁀➴ [Hit me up](https://01satria.github.io/me/)
 
 <p align="left">
 <img src="https://readme-typing-svg.demolab.com/?lines=Page+of+Shantan+Indonesia!;Underground+Alert!;Check+my+website!;Thanks+for+visiting!&font=Fira%20Code&center=false&width=480&height=50&duration=4000&pause=1000" alt="shantant">
