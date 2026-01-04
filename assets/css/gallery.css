@@ -193,7 +193,6 @@ h1 {
 .gallery-item-inner {
     position: relative;
     height: 300px;
-    padding-top: 75%;
     overflow: hidden;
 }
 
