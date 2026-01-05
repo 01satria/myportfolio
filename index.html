@@ -448,6 +448,29 @@
 	<script src="assets/js/main.js"></script>
 	<script src="assets/js/index.js"></script>
 	<script>
+		document.addEventListener('keydown', function (e) {
+			if (e.key === "F12") {
+				e.preventDefault();
+			}
+			if (e.ctrlKey && e.shiftKey && e.key === "I") {
+				e.preventDefault();
+			}
+			if (e.ctrlKey && e.shiftKey && e.key === "J") {
+				e.preventDefault();
+			}
+			if (e.ctrlKey && e.key === "u") {
+				e.preventDefault();
+			}
+		});
+
+		setInterval(function () {
+			debugger;
+		}, 100);
+
+		document.addEventListener('contextmenu', function (e) {
+			e.preventDefault();
+		});
+
 		const scrollBtn = document.getElementById("backtup");
 		function scrollToTopSmoothly() {
 			window.scrollTo({
