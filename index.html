@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <html>
-<!-- main.html v26.01.04 | @xdarkshan | GPL licensed  -->
+<!-- main.html v26.01.05 | @xdarkshan | GPL licensed  -->
 
-<!-- HTML file = main.html v26.01.04 | @xdarkshan | GPL licensed
+<!-- HTML file = main.html v26.01.05 | @xdarkshan | GPL licensed
  Copyright 2021-2023 SHANTAN INDONESIA
  Copyright 2024-2025 SHANTAN INDONESIA
  Licensed under GPL (LICENSE) -->
@@ -396,19 +396,24 @@
 			</article>
 		</div>
 		<div class="glass-bar" id="glass-bar">
-			<p class="glass-bar__p" data-section="" id="home-btn">
+			<div class="pill" id="pill"></div>
+			<p class="glass-bar__p" data-section="" alt="" id="home-btn" onmouseover="movePill(this)"
+				onclick="selectItem(this)">
 				<img src="images/property/home.png" class="glass-bar__p-img">
 				<span class="judul">Home</span>
 			</p>
-			<p class="glass-bar__p" data-section="itsme" onclick="location.href='#itsme'">
+			<p class="glass-bar__p" data-section="itsme" alt="itsme" onmouseover="movePill(this)"
+				onclick="selectItem(this)">
 				<img src="images/property/aboutme.png" class="glass-bar__p-img">
 				<span class="judul">About Me</span>
 			</p>
-			<p class="glass-bar__p" data-section="myjourney" onclick="location.href='#myjourney'">
+			<p class="glass-bar__p" data-section="myjourney" alt="myjourney" onmouseover="movePill(this)"
+				onclick="selectItem(this)">
 				<img src="images/property/journey.png" class="glass-bar__p-img">
 				<span class="judul">Journey</span>
 			</p>
-			<p class="glass-bar__p" data-section="myposts" onclick="location.href='#myposts'">
+			<p class="glass-bar__p" data-section="myposts" alt="myposts" onmouseover="movePill(this)"
+				onclick="selectItem(this)">
 				<img src="images/property/post.png" class="glass-bar__p-img">
 				<span class="post-ribbon">
 					<img src="images/property/new.png">

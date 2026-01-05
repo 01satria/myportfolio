@@ -1,5 +1,5 @@
 /*!
- * main.js v26.01.04 | @xdarkshan | Sateula template
+ * main.js v26.01.05 | @xdarkshan | Sateula template
  * javascript file for Sateula template
  * @license Copyright 2025, Sateula. All rights reserved.
  * Subject to the terms at sateula standard-license.
@@ -88,7 +88,6 @@ function checkNewPostsAndStyleRibbon() {
 
 		if (timeDifference > 0 && timeDifference <= MS_PER_DAY) {
 			globalRibbon.classList.add('is-new-visible');
-			showNotification();
 		} else {
 			globalRibbon.style.display = 'none';
 		}
@@ -412,17 +411,6 @@ function showLayer(targetId) {
 						history.back();
 					}
 				});
-		}
-	});
-
-	$window.on('keyup', function (event) {
-		switch (event.keyCode) {
-			case 27:
-				if ($body.hasClass('is-article-visible'))
-					$main._hide(true);
-				break;
-			default:
-				break;
 		}
 	});
 
@@ -773,9 +761,7 @@ function Playlist({ list, handleChangeMusic }) {
 							onLoadeddata: loadedAudio,
 							onTimeupdate: updateTheProgressBar
 						})));
-
 			})));
-
 }
 
 function dom(tag, props, ...children) {
@@ -825,7 +811,7 @@ function controlSubtitleAnimation(parent, child) {
 
 }
 function handleResize() {
-	const vH = window.innerHeight * 0.01;
+	const vH = window.innerHeight * 0;
 	setProperty(document.documentElement, "--vH", `${vH}px`);
 }
 function querySelector(target) {
@@ -1071,11 +1057,11 @@ function hitungEstimasiBaca(text) {
 	const jumlahKata = teks.trim().split(/\s+/).filter(word => word.length > 0).length;
 	const jumlahGambar = (text.match(/<img[^>]*>/g) || []).length;
 	const WPM = 200;
-	const detikPerGambar = 12;
+	const detikPerGambar = 30;
 	const detikTeks = (jumlahKata / WPM) * 60;
 	const detikGambar = jumlahGambar * detikPerGambar;
 	const totalDetik = detikTeks + detikGambar;
-	const totalMenit = Math.ceil(totalDetik / 60) + 1;
+	const totalMenit = Math.ceil(totalDetik / 60);
 
 	return {
 		totalKata: jumlahKata,
@@ -1136,35 +1122,12 @@ function autoHideNotif() {
 }
 
 document.addEventListener('DOMContentLoaded', autoHideNotif);
-// const observer = new MutationObserver(() => {
-//     autoHideNotif();
-// });
-// observer.observe(document.body, { childList: true, subtree: true });
-
-function showNotification() {
-	const notification = document.getElementById('notification');
-	notification.classList.remove('hide');
-
-	setTimeout(() => {
-		notification.classList.add('show');
-	}, 1000);
-
-	setTimeout(() => {
-		notification.classList.remove('show');
-		notification.classList.add('hide');
-
-		setTimeout(() => {
-			notification.classList.remove('hide');
-		}, 500); // Adjust to transition duration with CSS (0.5s) PENTING NII!!
-	}, 5000);
-}
 
 document.addEventListener('DOMContentLoaded', checkRecentPosts);
 async function checkRecentPosts() {
 	const dataUrl = 'assets/txt/mypost/mypost.txt';
 	const response = await fetch(dataUrl);
 	GLOBAL_POST_DATA = await response.json();
-
 	const twentyFourHoursAgo = Date.now() - (3 * 24 * 60 * 60 * 1000);
 
 	if (!GLOBAL_POST_DATA || GLOBAL_POST_DATA.length === 0) {
@@ -1179,13 +1142,60 @@ async function checkRecentPosts() {
 
 	if (isRecentPostFound) {
 		console.log('Exist');
-		showNotificationManually();
-		showNotification();
 	} else {
 		console.log('No posts in the last 3 days.');
 	}
 }
 
-function showNotificationManually() {
-	showNotification();
+
+// 
+const pill = document.getElementById('pill');
+const items = document.querySelectorAll('.glass-bar__p');
+let activeItem = null;
+
+window.onload = () => {
+	const currentHash = window.location.hash.substring(1) || 'home';
+	const initialItem = document.querySelector(`.glass-bar__p[data-section="${currentHash}"]`) || items[0];
+
+	if (initialItem) {
+		selectItem(initialItem);
+	}
+};
+
+function movePill(element) {
+	if (!element) return;
+
+	pill.style.width = `${element.offsetWidth}px`;
+	pill.style.left = `${element.offsetLeft}px`;
+
+	if (element !== activeItem) {
+		pill.classList.remove('clicked');
+	} else {
+		pill.classList.add('clicked');
+	}
 }
+
+function selectItem(element) {
+	if (!element) return;
+
+	const target = element.getAttribute('alt') || element.getAttribute('data-section');
+
+	window.location.hash = (target === 'home') ? '' : target;
+
+	items.forEach(item => item.classList.remove('active'));
+	element.classList.add('active');
+	activeItem = element;
+
+	pill.classList.add('clicked');
+
+	pill.style.width = `${element.offsetWidth}px`;
+	pill.style.left = `${element.offsetLeft}px`;
+}
+
+document.getElementById('glass-bar').onmouseleave = () => {
+	if (activeItem) {
+		pill.classList.add('clicked');
+		pill.style.width = `${activeItem.offsetWidth}px`;
+		pill.style.left = `${activeItem.offsetLeft}px`;
+	}
+};
