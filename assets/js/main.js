@@ -1,5 +1,5 @@
 /*!
- * main.js v26.01.05 | @xdarkshan | Sateula template
+ * main.js v26.01.07 | @xdarkshan | Sateula template
  * javascript file for Sateula template
  * @license Copyright 2025, Sateula. All rights reserved.
  * Subject to the terms at sateula standard-license.
@@ -392,7 +392,7 @@ function showLayer(targetId) {
 		});
 
 		var currentId = $this.attr('id');
-		const noCloseIds = ['itsme', 'myjourney', 'myposts'];
+		const noCloseIds = ['myshop', 'myjourney', 'myposts'];
 
 		if (!noCloseIds.includes(currentId)) {
 			$('<div class="close"></div>')

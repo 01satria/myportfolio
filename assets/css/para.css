@@ -1,5 +1,5 @@
 /*!
- * para.css v26.01.05 | @xdarkshan | GPL licensed
+ * para.css v26.01.07 | @xdarkshan | GPL licensed
  * Copyright 2021-2023 SHANTAN INDONESIA
  * Copyright 2024-2025 SHANTAN INDONESIA
  * Licensed under GPL (LICENSE)
@@ -140,6 +140,10 @@ section {
     width: 200px;
     height: 200px;
     position: relative;
+    border: 1px dashed #414141;
+    object-fit: cover;
+    border-radius: 30px;
+    filter: hue-rotate(22deg);
     display: block;
     place-self: center;
     align-content: center;
@@ -297,11 +301,11 @@ section {
     display: grid;
     place-items: center;
     grid-template-columns: repeat(2, 1fr);
-    padding: 2rem 1rem 1rem 1rem;
+    padding: 1rem 1rem 1rem 1rem;
     position: relative;
     align-self: center;
     place-content: center;
-    width: 100%;
+    /* width: 100%; */
     flex-wrap: wrap;
     gap: 1rem;
 }
@@ -545,7 +549,7 @@ body {
     }
 
     .cardnya {
-        width: 335px !important;
+        width: 150px !important;
     }
 
     .right-side {
@@ -607,7 +611,7 @@ body {
 .glass-bar {
     position: fixed;
     bottom: 20px;
-    width: 50%;
+    width: 60%;
     justify-self: center;
     transition: transform 0.3s ease-in-out;
     background-color: rgba(44, 44, 44, 0.95);
@@ -639,7 +643,7 @@ body {
 .glass-bar__p.active {
     /* background-color: rgba(0, 0, 0, 0.89) !important; */
     border-radius: 50px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.6s cubic-bezier(1, 1, 0.51, 1);
 }
 
 .glass-bar__p-img {
@@ -741,7 +745,7 @@ body {
 
 @media screen and (max-width: 736px) {
     .gambar-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     #mypostsnya_konten-kon {
@@ -763,7 +767,7 @@ body {
 
 @media screen and (max-width: 480px) {
     .gambar-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     #mypostsnya_konten-kon {
@@ -833,6 +837,11 @@ body {
 }
 
 .leaflet-container .leaflet-control-attribution {
+    display: none !important;
+}
+
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
     display: none !important;
 }
 
@@ -917,8 +926,8 @@ body {
 /* CARDNYA - BACKTUP (804-952) */
 .cardnya {
     position: relative;
-    width: 350px;
-    height: 250px;
+    width: 210px;
+    height: 60px;
     background-color: #000000cc;
     border-radius: 35px;
     display: flex;
@@ -967,13 +976,11 @@ body {
     color: #000000;
 }
 
-.cardnyaskill {
-    position: static;
-    width: 97%;
-    height: 100%;
-    padding-bottom: 1rem;
-    border-bottom: 3px dashed #ffffff5e;
-    display: flex;
+.skillcard {
+    position: relative;
+    width: 98%;
+    /* height: 100%; */
+    display: grid;
     align-items: center;
     justify-content: center;
     overflow: hidden;
@@ -1447,16 +1454,17 @@ html {
 .skills-container {
     display: grid;
     gap: 1rem;
-    height: 100%;
+    /* height: 100%; */
     padding-bottom: 2rem;
-    width: inherit;
-    position: absolute;
+    /* width: 120%; */
+    place-self: center;
+    /* position: absolute; */
     top: 0;
     grid-template-columns: repeat(2, 1fr);
 }
 
 .skill-group {
-    padding: 5px;
+    padding: 20px;
     border-radius: 30px;
     background: linear-gradient(135deg, #000000d5, #1c1c1c);
     align-content: center;
@@ -1556,39 +1564,32 @@ html {
     align-items: normal;
     width: 100%;
     max-width: 100%;
-    margin-bottom: 3rem;
-    padding: 0.5rem;
+    margin-bottom: 2rem;
     gap: 0rem;
     flex-wrap: wrap;
 }
 
-.left-side {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.right-side {
+.main-containernya {
     flex: 2;
     display: flex;
-    margin-bottom: 20rem;
     justify-content: space-around;
     flex-wrap: wrap;
+    margin-bottom: 4rem;
 }
 
 /* LANGUAGES - CSS (1500-1555) */
 .lang-text {
-    color: white;
-    position: fixed;
-    left: 20px;
-    bottom: 10px;
+    margin: 0rem;
     font-family: monospace;
-}
-
-.bendera:hover {
-    transform: scale(1.1);
-    transition: all 0.3s ease-in-out;
+    font-weight: normal;
+    right: 30px;
+    font-size: small;
+    padding: 0.5rem 1rem;
+    display: block;
+    position: absolute;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 0px 20px 0px 0px;
 }
 
 /* TOP RIGHT BUTTON TO OUT - CSS (1557-1597) */
@@ -1633,12 +1634,21 @@ html {
     background: linear-gradient(135deg, #ffffff44, #000000af);
 }
 
+#buttonmusic {
+    top: -80px !important;
+}
+
+#buttonmusic.show {
+    top: 10px !important;
+    transition: all 0.4s ease-in-out !important;
+}
+
 .social-container {
-    padding: 2rem 15px 8rem 15px;
+    padding: 1.5rem 15px 8rem 15px;
     background-color: #000000;
-    border-top: 1px dashed rgb(255, 255, 255);
+    border-top: 5px dashed gray;
     display: inline;
-    justify-content: center;
+    justify-content: end;
     gap: 10px;
     flex-wrap: wrap;
     align-items: center;
@@ -1654,6 +1664,7 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
 }
 
 .socnya:hover {
@@ -1669,7 +1680,7 @@ html {
     z-index: 9999;
     display: block;
     cursor: pointer;
-    background: linear-gradient(135deg, #ffffff81, #000000dc);
+    background: linear-gradient(135deg, #ffffff40, #02020269);
     box-shadow: 2px 3px 12px rgb(45 44 44 / 86%);
     border-radius: 50%;
     width: 50px;
@@ -1715,8 +1726,8 @@ body {
     background-image:
         linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px) !important;
-    background-size: 40px 40px !important;
-    background-position: center !important;
+    background-size: 69px 69px !important;
+    /* background-position: center !important; */
     font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
     /* background: linear-gradient(138deg, rgb(57 84 169) 0%, rgb(127 127 127) 35%, rgba(28, 20, 11, 1) 100%); */
     min-height: 100vh;
@@ -1730,6 +1741,12 @@ body {
 @media (max-width: 768px) {
     .backtup {
         right: 5px;
+    }
+
+
+    .lang-text {
+        width: 95px;
+        right: 0px;
     }
 
     .kolomcard {
@@ -2342,4 +2359,112 @@ h1 {
 .pill.clicked {
     background: black;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.infobox:hover,
+.infobox.active,
+.infobox:focus {
+    z-index: 1;
+    animation: infiniteFlip 3s linear infinite;
+    perspective: 1000px;
+
+}
+
+.cardnya:hover .infobox {
+    z-index: 1;
+    animation: infiniteFlip 1.5s linear infinite;
+    perspective: 1000px;
+}
+
+@keyframes infiniteFlip {
+    0% {
+        transform: rotateY(0deg);
+    }
+
+    100% {
+        transform: rotateY(360px);
+    }
+}
+
+/* Alert styles */
+.alert {
+  overflow: hidden;
+  position: relative;
+  text-align: left;
+  border-radius: 0.5rem;
+  max-width: 290px;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.header-alert {
+  padding: 1.25rem 1rem 1rem 1rem;
+  border: 1px solid #535353;
+  border-radius: 20px;
+  background-color: #000000;
+}
+
+.image-alert {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+}
+
+.image-alert svg {
+  color: #ff3434;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.content-alert {
+  margin-top: 0.75rem;
+  text-align: center;
+}
+
+.title-alert {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+
+.message-alert {
+  margin-top: 0.5rem;
+  color: #ffffff;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.actions-alert {
+  margin: 0.75rem 1rem;
+}
+
+.cancel-alert {
+  display: inline-flex;
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  background-color: #000000a9;
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+  justify-content: center;
+  width: 100%;
+  border-radius: 0.375rem;
+  border: 1px solid #d1d5db;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.cancel-alert:hover {
+  background-color: #111111;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  transform: scale(0.9);
 }
