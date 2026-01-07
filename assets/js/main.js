@@ -24,7 +24,6 @@ function setLanguage(lang) {
 	}
 
 	applyTranslation();
-	document.body.style.overflow = 'auto';
 	if (!lapis || !instr || !instr2) return;
 
 	instr.remove();
