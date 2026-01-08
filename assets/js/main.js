@@ -108,7 +108,7 @@ function checkNewPostsAndStyleRibbon() {
 	const MS_PER_DAY = 3 * 24 * 60 * 60 * 1000;
 	const currentTime = new Date().getTime();
 	const cardPosts = document.querySelectorAll(".cardpost");
-	const globalRibbon = document.querySelector('.glass-bar__p .post-ribbon');
+	const globalRibbon = document.querySelector(' .post-ribbon');
 
 	if (!globalRibbon || cardPosts.length === 0) {
 		return;
@@ -135,9 +135,22 @@ function checkNewPostsAndStyleRibbon() {
 		const timeDifference = currentTime - postTime;
 
 		if (timeDifference > 0 && timeDifference <= MS_PER_DAY) {
-			globalRibbon.classList.add('is-new-visible');
-		} else {
-			globalRibbon.style.display = 'none';
+			globalRibbon.classList.remove('is-not-visible');
+
+			setTimeout(() => {
+				globalRibbon.classList.add('is-new-visible');
+			}, 1000);
+
+			setTimeout(() => {
+				globalRibbon.classList.remove('is-new-visible');
+				globalRibbon.classList.add('is-not-visible');
+
+				setTimeout(() => {
+					globalRibbon.classList.remove('is-not-visible');
+				}, 500); // Adjust to transition duration with CSS (0.5s) PENTING NII!!
+			}, 10000);
+
+
 		}
 	}
 }
@@ -470,7 +483,6 @@ function showLayer(targetId) {
 			event.stopPropagation();
 			$main._hide();
 
-			// Update nav highlight
 			document.querySelectorAll('.glass-bar__p').forEach(el => el.classList.remove('active'));
 			const homeBtn = document.querySelector('.glass-bar__p[data-section="home"]');
 			if (homeBtn) homeBtn.classList.add('active');
@@ -974,38 +986,155 @@ function initializeMusicPlayer(data) {
 // MAIN ENTRY POINT FOR MUSIC PLAYER
 handleResize();
 
-
 let GLOBAL_POST_DATA = null;
+const POST_BASE_URL = 'assets/txt/mypost/';
 
-/**
- * * @param {number} postId - post id for search.
- * @returns {Promise<Object | undefined>} Object post.
- */
+async function discoverAllPostIds() {
+	const MAX_POST_ID = 100;
+	const possibleIds = Array.from({ length: MAX_POST_ID }, (_, i) => i + 1);
+
+	const promises = possibleIds.map(id =>
+		fetch(`${POST_BASE_URL}post_${id}.json`, { method: 'HEAD' })
+			.then(res => res.ok ? id : null)
+			.catch(() => null)
+	);
+
+	const results = await Promise.all(promises);
+	return results.filter(id => id !== null);
+}
+
 async function getPostDataById(postId) {
-	if (GLOBAL_POST_DATA === null) {
-		console.log("Data has not been loaded. Performing fetching...");
-		try {
-			const response = await fetch(dataUrl);
-
-			if (!response.ok) {
-				throw new Error(`Failed to load data: Status ${response.status}`);
-			}
-
-			GLOBAL_POST_DATA = await response.json();
-
-			console.log(`Loading successful ${GLOBAL_POST_DATA.length} post.`);
-
-		} catch (error) {
-			console.error('An error occurred while fetching or parsing data:', error);
-			GLOBAL_POST_DATA = null;
-			return undefined;
-		}
-	} else {
-		console.log("Data is already in memory.");
+	if (GLOBAL_POST_DATA !== null) {
+		return GLOBAL_POST_DATA.find(post => post.id === postId);
 	}
 
-	return GLOBAL_POST_DATA.find(post => post.id === postId);
+	try {
+		const response = await fetch(`${POST_BASE_URL}post_${postId}.json`);
+		if (!response.ok) return undefined;
+		return await response.json();
+	} catch (error) {
+		console.error(`Failed to load post ${postId}:`, error);
+		return undefined;
+	}
 }
+
+async function loadAllPosts() {
+	if (GLOBAL_POST_DATA !== null) return GLOBAL_POST_DATA;
+
+	const postIds = await discoverAllPostIds();
+	if (postIds.length === 0) {
+		GLOBAL_POST_DATA = [];
+		return [];
+	}
+
+	const promises = postIds.map(id =>
+		fetch(`${POST_BASE_URL}post_${id}.json`)
+			.then(res => res.ok ? res.json() : null)
+			.catch(() => null)
+	);
+
+	const posts = await Promise.all(promises);
+	GLOBAL_POST_DATA = posts.filter(p => p !== null);
+
+	GLOBAL_POST_DATA.sort((a, b) => {
+		const cleanA = a.waktu.replace('(', ' ').replace(',', ':').replace(')', '');
+		const cleanB = b.waktu.replace('(', ' ').replace(',', ':').replace(')', '');
+		return new Date(cleanB) - new Date(cleanA);
+	});
+
+	return GLOBAL_POST_DATA;
+}
+
+async function loadAllCardPosts() {
+	const posts = await loadAllPosts();
+	const container = document.getElementById('mypostsnya_konten-kon');
+	if (!container) return;
+
+	let htmlContent = '';
+
+	posts.forEach(post => {
+		const cardHtml = `
+            <div class="cardpost" onclick="reloadpost(${post.id})">
+                <span class="ribbon-post">NEW</span>
+                <h3 class="cardpost__title">${post.judul}</h3>
+                <div class="cardpost__time">
+                    <svg style="display:block;position:absolute;align-self:center;left:10px;" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <div style="padding-left: 1.3rem;">${hitungEstimasiBaca(post.isi_html).estimasiMenit}</div>
+                </div>
+                <div class="cardpost__description" data-time="${post.waktu}">
+                    <svg style="display:block;position:absolute;align-self:center;left:10px;" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                    <div style="padding-left: 1.3rem;">${formatTimeAgoEnglish(post.waktu)}</div>
+                </div>
+                <img class="image_post" src="${post.image}">
+            </div>
+        `;
+		htmlContent += cardHtml;
+	});
+
+	container.innerHTML = htmlContent;
+	checkLocalRibbons();
+	checkNewPostsAndStyleRibbon();
+}
+
+async function reloadpost(postId) {
+	document.location.href = "#mypost_read";
+	const elemenInduk = document.getElementById('mypost_read');
+	const postLama = elemenInduk.querySelector('.info-box');
+	if (postLama) postLama.remove();
+
+	const postDetail = await getPostDataById(postId);
+	if (!postDetail) {
+		const errorEl = document.createElement('div');
+		errorEl.className = 'info-box';
+		errorEl.innerHTML = '<p style="color: red; text-align: center;">Post tidak ditemukan atau gagal dimuat.</p>';
+		elemenInduk.prepend(errorEl);
+		return;
+	}
+
+	const elemenBaru = document.createElement('div');
+	elemenBaru.className = 'info-box';
+	elemenBaru.innerHTML = `
+        <div class="post-full-container">
+            <h1 class="post-judul">${postDetail.judul}</h1>      
+            <div class="container-post-page">
+                <img class="icon-post-page" src="${postDetail.image}">
+                <p style="align-self: center; height: 100%; border-right: 2px solid #ffffff15;"></p>
+                <p>Satria Bagus</p>
+                <p style="align-self: center; height: 4px; border-radius: 100%; border-right: 4px solid #ffffff;"></p>
+                <p class="post-date">${formatDateToShortMonth(postDetail.waktu)}</p>
+            </div>
+            <div class="post-body">
+                ${postDetail.isi_html}
+            </div>
+        </div>
+    `;
+	elemenInduk.prepend(elemenBaru);
+}
+
+async function checkRecentPosts() {
+	await loadAllPosts();
+	const threeDaysAgo = Date.now() - (3 * 24 * 60 * 60 * 1000);
+
+	if (!GLOBAL_POST_DATA || GLOBAL_POST_DATA.length === 0) {
+		console.log("No post data!");
+		return;
+	}
+
+	const hasRecent = GLOBAL_POST_DATA.some(post => {
+		const cleaned = post.waktu.replace('(', ' ').replace(',', ':').replace(')', '');
+		const postTime = new Date(cleaned).getTime();
+		return postTime > threeDaysAgo;
+	});
+
+	console.log(hasRecent ? 'Exist' : 'No posts in the last 3 days!');
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+	loadAllCardPosts();
+	checkRecentPosts();
+});
+
+
 (async function () {
 	const loadedSongs = await loadMusicData();
 
@@ -1045,61 +1174,6 @@ function formatDateToShortMonth(dateString) {
 	return `${month} ${day}, ${year}`;
 }
 
-async function reloadpost(data) {
-	document.location.href = "#mypost_read";
-	const elemenInduk = document.getElementById('mypost_read');
-	const postLama = elemenInduk.querySelector('.info-box');
-	if (postLama) {
-		postLama.remove();
-	}
-
-	const elemenBaru = document.createElement('div');
-	const dataUrl = 'assets/txt/mypost/mypost.txt';
-
-	try {
-		const response = await fetch(dataUrl);
-		if (!response.ok) {
-			throw new Error('Failed to load post data');
-		}
-
-		GLOBAL_POST_DATA = await response.json();
-
-		const postDetail = GLOBAL_POST_DATA.find(post => post.id === data);
-
-		if (!postDetail) {
-			console.error('Post with that ID was not found', data);
-			return;
-		}
-
-		elemenBaru.innerHTML = `
-            <div class="post-full-container">
-                <h1 class="post-judul">${postDetail.judul}</h1>      
-                
-                <div class="container-post-page">
-                    <img class="icon-post-page" src="${postDetail.image}">
-                    <p style="align-self: center; height: 100%; border-right: 2px solid #ffffff15;"></p>
-                    <p>Satria Bagus</p>
-                    <p style="align-self: center; height: 4px; border-radius: 100%; border-right: 4px solid #ffffff;"></p>
-                    <p class="post-date">${formatDateToShortMonth(postDetail.waktu)}</p>
-                </div>
-                
-                <div class="post-body">
-                    ${postDetail.isi_html} 
-                </div>
-            </div>
-        `;
-
-		elemenBaru.className = 'info-box';
-		elemenInduk.prepend(elemenBaru);
-
-	} catch (error) {
-		console.error('Error loading post:', error);
-		elemenBaru.innerHTML = '<p style="color: red; text-align: center;">Failed to load post. Please try again.</p>';
-		elemenBaru.className = 'info-box';
-		elemenInduk.prepend(elemenBaru);
-	}
-}
-
 function hitungEstimasiBaca(text) {
 	const teks = text || "";
 	const jumlahKata = teks.trim().split(/\s+/).filter(word => word.length > 0).length;
@@ -1119,61 +1193,6 @@ function hitungEstimasiBaca(text) {
 	};
 
 }
-
-function loadAllCardPosts(posts) {
-	const container = document.getElementById('mypostsnya_konten-kon');
-	if (!container) return;
-
-	let htmlContent = '';
-
-	posts.forEach(post => {
-		const cardHtml = `
-            <div class="cardpost" onclick=reloadpost(${post.id})>
-				<span class="ribbon-post">NEW</span>
-                <h3 class="cardpost__title">${post.judul}</h3>
-				<div class="cardpost__time"><svg style="display:block;position:absolute;align-self:center;left:10px;" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock" aria-hidden="true" x-file-name="PostsPage" x-line-number="75" x-component="Clock" x-id="PostsPage_75" x-dynamic="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <div style="padding-left: 1.3rem;">${hitungEstimasiBaca(post.isi_html).estimasiMenit}</div></div>
-                <div class="cardpost__description" data-time="${(post.waktu)}"><svg style="display:block;position:absolute;align-self:center;left:10px;" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar" aria-hidden="true" x-file-name="PostsPage" x-line-number="71" x-component="Calendar" x-id="PostsPage_71" x-dynamic="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg> <div style="padding-left: 1.3rem;">${formatTimeAgoEnglish(post.waktu)}</div></div>
-				<img class="image_post" src="${post.image}">
-            </div>
-        `;
-		htmlContent += cardHtml;
-	});
-
-	container.innerHTML = htmlContent;
-	checkLocalRibbons();
-	checkNewPostsAndStyleRibbon();
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-	fetch('assets/txt/mypost/mypost.txt').then(res => res.json()).then(data => loadAllCardPosts(data));
-
-});
-
-
-document.addEventListener('DOMContentLoaded', checkRecentPosts);
-async function checkRecentPosts() {
-	const dataUrl = 'assets/txt/mypost/mypost.txt';
-	const response = await fetch(dataUrl);
-	GLOBAL_POST_DATA = await response.json();
-	const twentyFourHoursAgo = Date.now() - (3 * 24 * 60 * 60 * 1000);
-
-	if (!GLOBAL_POST_DATA || GLOBAL_POST_DATA.length === 0) {
-		console.log("Post data is empty or has not been loaded.");
-		return;
-	}
-
-	const isRecentPostFound = GLOBAL_POST_DATA.some(post => {
-		const postTime = new Date(post.waktu).getTime();
-		return postTime > twentyFourHoursAgo;
-	});
-
-	if (isRecentPostFound) {
-		console.log('Exist');
-	} else {
-		console.log('No posts in the last 3 days.');
-	}
-}
-
 
 //  GLASS PILL BAR NAVIGATION JS 
 const pill = document.getElementById('pill');

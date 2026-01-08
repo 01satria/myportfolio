@@ -1,0 +1,7 @@
+{
+  "id": 3,
+  "judul": "Judul Postingan Kamu",
+  "waktu": "01/08/2026(17,00)",
+  "image": "path/ke/gambar.jpg",
+  "isi_html": "<p>Isi post dalam bentuk HTML lengkap...</p><img src=\"...\">"
+}

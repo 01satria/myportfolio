@@ -1960,9 +1960,14 @@ body {
 .post-ribbon {
     position: absolute;
     display: none;
-    top: 0px;
+    top: 40px;
     right: 0px;
+    background: linear-gradient(90deg, #6d6d6d40, #00000069);
+    border: 1px dashed gray;
     font-family: monospace !important;
+    border-radius: 20px;
+    align-items: center;
+    justify-self: anchor-center;
     font-weight: 900;
     padding: 5px;
     font-size: 13px !important;
@@ -1971,14 +1976,21 @@ body {
     text-transform: uppercase;
     white-space: nowrap;
     color: white;
-    z-index: 10;
     transform-origin: bottom left;
+    transition: all 0.5s ease-in-out;
+
 }
 
 .post-ribbon img {
     width: 25px;
+    display: block;
+    place-content: center;
     height: 25px;
     animation: pulse-new 2s infinite;
+}
+
+.post-ribbon span {
+    margin-left: 5px;
 }
 
 @keyframes pulse-new {
@@ -1996,7 +2008,17 @@ body {
 }
 
 .post-ribbon.is-new-visible {
-    display: block !important;
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.post-ribbon.is-not-visible {
+    opacity: 0;
+    display: flex;
+    transform: translateY(-100%);
+    visibility: hidden;
 }
 
 .ribbon-post {
