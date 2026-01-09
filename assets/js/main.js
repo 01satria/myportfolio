@@ -1099,7 +1099,7 @@ async function reloadpost(postId) {
             <div class="container-post-page">
                 <img class="icon-post-page" src="${postDetail.image}">
                 <p style="align-self: center; height: 100%; border-right: 2px solid #ffffff15;"></p>
-                <p>Satria Bagus</p>
+                <p translate="no">Satria Bagus</p>
                 <p style="align-self: center; height: 4px; border-radius: 100%; border-right: 4px solid #ffffff;"></p>
                 <p class="post-date">${formatDateToShortMonth(postDetail.waktu)}</p>
             </div>

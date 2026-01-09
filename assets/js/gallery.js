@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             renderGallery(allImages);
-
         } catch (error) {
             console.error('Error:', error);
             gallery.innerHTML = '<p style="color:white; text-align:center;">Failed to load images.</p>';
@@ -136,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }, 500);
                 });
                 sessioninstruction = 1;
-            }, 3000);
+            }, 6000);
         } else {
             instruction.forEach(instruc => {
                 instruc.style.display = "none";
