@@ -8,29 +8,53 @@
 
 let currentLang = localStorage.getItem('selectedLang') || 'id';
 
+function applyTranslation() {
+    const selectEl = document.querySelector('.goog-te-combo');
+    if (selectEl) {
+        selectEl.value = currentLang;
+        selectEl.dispatchEvent(new Event('change'));
+        return true;
+    }
+    return false;
+}
+
+function removeLoadingScreen() {
+    const loader = document.getElementById('loading-screen');
+    if (loader) {
+        loader.classList.add('loaded');
+        setTimeout(() => loader.remove(), 600);
+    }
+}
+
+window.addEventListener('load', () => {
+    document.getElementById('loading-text').innerText = "Mengubah bahasa...";
+
+    let attempts = 0;
+    const checkGoogleTranslate = setInterval(() => {
+        const isReady = applyTranslation();
+        attempts++;
+
+        if (isReady || attempts > 100) {
+            clearInterval(checkGoogleTranslate);
+            removeLoadingScreen();
+            console.clear();
+        }
+    }, 100); 
+});
+
 function setLanguage(lang) {
-	const lapis = document.getElementById('lapisanutama');
-	const instr = document.getElementById('instructionutama1');
-	const instr2 = document.getElementById('instructionutama2');
-	const langswitcher = document.getElementById('language-switcher');
+    currentLang = lang;
+    localStorage.setItem('selectedLang', lang);
 
-	currentLang = lang;
-	localStorage.setItem('selectedLang', lang);
+    document.cookie = `googtrans=/en/${lang}; path=/`;
 
-	if (currentLang === 'id') {
-		document.cookie = "googtrans=/en/id; path=/";
-		// document.cookie = "googtrans=/en/id; domain=" + window.location.hostname + "; path=/";
-	} else {
-		document.cookie = "googtrans=/en/en; path=/";
-	}
+    applyTranslation();
 
-	applyTranslation();
-	if (!lapis || !instr || !instr2) return;
-
-	instr.remove();
-	langswitcher.remove();
-	instr2.remove();
-	lapis.remove();
+    const idsToRemove = ['lapisanutama', 'instructionutama1', 'instructionutama2', 'language-switcher'];
+    idsToRemove.forEach(id => {
+        const elhapus = document.getElementById(id);
+        if (elhapus) elhapus.remove();
+    });
 }
 
 window.addEventListener('load', () => {
@@ -45,14 +69,6 @@ window.addEventListener('load', () => {
 		if (attempts > 50) clearInterval(checkWidget);
 	}, 100);
 });
-
-function applyTranslation() {
-	const selectEl = document.querySelector('.goog-te-combo');
-	if (selectEl) {
-		selectEl.value = currentLang;
-		selectEl.dispatchEvent(new Event('change'));
-	}
-}
 
 function checkLocalRibbons() {
 	const MS_PER_DAY = 3 * 24 * 60 * 60 * 1000;
@@ -1242,7 +1258,7 @@ function selectItem(element) {
 		applyTranslation();
 		checks++;
 		if (checks > 3) clearInterval(checkInterval);
-	}, 50);
+	}, 60);
 }
 
 document.getElementById('glass-bar').onmouseleave = () => {
