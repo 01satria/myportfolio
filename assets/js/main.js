@@ -1241,7 +1241,7 @@ function selectItem(element) {
 	const checkInterval = setInterval(() => {
 		applyTranslation();
 		checks++;
-		if (checks > 3) clearInterval(checkInterval);
+		if (checks > 2) clearInterval(checkInterval);
 	}, 50);
 }
 
