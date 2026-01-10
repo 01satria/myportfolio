@@ -10,67 +10,75 @@ const loadStartTime = performance.now();
 let currentLang = localStorage.getItem('selectedLang') || 'en';
 
 async function applyTranslation() {
-    const selectEl = document.querySelector('.goog-te-combo');
-    if (selectEl) {
-        selectEl.value = currentLang;
-        selectEl.dispatchEvent(new Event('change'));
-        selectEl.dispatchEvent(new Event('input'));
-        return true;
-    }
-    return false;
+	const selectEl = document.querySelector('.goog-te-combo');
+	if (selectEl) {
+		selectEl.value = currentLang;
+		selectEl.dispatchEvent(new Event('change'));
+		selectEl.dispatchEvent(new Event('input'));
+		return true;
+	}
+	return false;
 }
 
-function removeLoadingScreen(duration) {
-    const loader = document.getElementById('loading-screen');
-    const loadingText = document.getElementById('loading-text');
+async function removeLoadingScreen(duration) {
+	const loader = document.getElementById('loading-screen');
+	const loadingText = document.getElementById('loading-text');
 
-    if (loader) {
-        if (loadingText) {
-            loadingText.innerText = `Selesai dalam ${duration} detik`;
-        }
+	if (loader) {
+		if (loadingText) {
+			loadingText.innerText = `Selesai dalam ${duration} detik`;
+		}
 
-        setTimeout(() => {
-            loader.classList.add('loaded');
-            setTimeout(() => loader.remove(), 600);
-        }, 500); 
-    }
+		setTimeout(() => {
+			loader.classList.add('loaded');
+			setTimeout(() => loader.remove(), 600);
+		}, 400);
+	}
 }
 
 window.addEventListener('load', () => {
-    document.getElementById('loading-text').innerText = "Mengubah bahasa...";
+	const loadingText = document.getElementById('loading-text');
+	loadingText.innerText = "Mengubah bahasa...";
 
-    let attempts = 0;
-    const checkGoogleTranslate = setInterval(() => {
-        const isReady = applyTranslation();
-        attempts++;
+	let attempts = 0;
+	const checkGoogleTranslate = setInterval(() => {
+		const selectEl = document.querySelector('.goog-te-combo');
 
-        if (isReady || attempts > 100) {
-            clearInterval(checkGoogleTranslate);
-            
-            const loadEndTime = performance.now();
-            const totalLoadTime = ((loadEndTime - loadStartTime) / 1000).toFixed(2);
-            
-            console.log(`Translator akan tersedia dalam ${totalLoadTime}s`);
-            
-            removeLoadingScreen(totalLoadTime);
-            console.clear();
-        }
-    }, 100); 
+		const currentElapsed = ((performance.now() - loadStartTime) / 1000).toFixed(1);
+		loadingText.innerText = `Mengubah bahasa... (${currentElapsed}s)`;
+
+		if (selectEl) {
+			selectEl.value = currentLang;
+			selectEl.dispatchEvent(new Event('change'));
+			selectEl.dispatchEvent(new Event('input'));
+
+			clearInterval(checkGoogleTranslate);
+
+			const totalLoadTime = ((performance.now() - loadStartTime) / 1000).toFixed(2);
+			removeLoadingScreen(totalLoadTime);
+			console.clear();
+		}
+
+		attempts++;
+		if (attempts > 100) {
+			clearInterval(checkGoogleTranslate);
+			removeLoadingScreen("Timed out");
+		}
+	}, 100);
 });
-
 async function setLanguage(lang) {
-    currentLang = lang;
-    localStorage.setItem('selectedLang', lang);
+	currentLang = lang;
+	localStorage.setItem('selectedLang', lang);
 
-    document.cookie = `googtrans=/en/${lang}; path=/`;
+	document.cookie = `googtrans=/en/${lang}; path=/`;
 
-    applyTranslation();
+	applyTranslation();
 
-    const idsToRemove = ['lapisanutama', 'instructionutama1', 'instructionutama2', 'language-switcher'];
-    idsToRemove.forEach(id => {
-        const elhapus = document.getElementById(id);
-        if (elhapus) elhapus.remove();
-    });
+	const idsToRemove = ['lapisanutama', 'instructionutama1', 'instructionutama2', 'language-switcher'];
+	idsToRemove.forEach(id => {
+		const elhapus = document.getElementById(id);
+		if (elhapus) elhapus.remove();
+	});
 }
 
 window.addEventListener('load', () => {
