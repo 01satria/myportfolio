@@ -6,23 +6,33 @@
  * @author: xdarkshan, sateula
  */
 
-let currentLang = localStorage.getItem('selectedLang') || 'id';
+const loadStartTime = performance.now();
+let currentLang = localStorage.getItem('selectedLang') || 'en';
 
-function applyTranslation() {
+async function applyTranslation() {
     const selectEl = document.querySelector('.goog-te-combo');
     if (selectEl) {
         selectEl.value = currentLang;
         selectEl.dispatchEvent(new Event('change'));
+        selectEl.dispatchEvent(new Event('input'));
         return true;
     }
     return false;
 }
 
-function removeLoadingScreen() {
+function removeLoadingScreen(duration) {
     const loader = document.getElementById('loading-screen');
+    const loadingText = document.getElementById('loading-text');
+
     if (loader) {
-        loader.classList.add('loaded');
-        setTimeout(() => loader.remove(), 600);
+        if (loadingText) {
+            loadingText.innerText = `Selesai dalam ${duration} detik`;
+        }
+
+        setTimeout(() => {
+            loader.classList.add('loaded');
+            setTimeout(() => loader.remove(), 600);
+        }, 500); 
     }
 }
 
@@ -36,13 +46,19 @@ window.addEventListener('load', () => {
 
         if (isReady || attempts > 100) {
             clearInterval(checkGoogleTranslate);
-            removeLoadingScreen();
+            
+            const loadEndTime = performance.now();
+            const totalLoadTime = ((loadEndTime - loadStartTime) / 1000).toFixed(2);
+            
+            console.log(`Translator akan tersedia dalam ${totalLoadTime}s`);
+            
+            removeLoadingScreen(totalLoadTime);
             console.clear();
         }
     }, 100); 
 });
 
-function setLanguage(lang) {
+async function setLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('selectedLang', lang);
 
@@ -66,8 +82,8 @@ window.addEventListener('load', () => {
 			clearInterval(checkWidget);
 		}
 		attempts++;
-		if (attempts > 50) clearInterval(checkWidget);
-	}, 100);
+		if (attempts > 40) clearInterval(checkWidget);
+	}, 200);
 });
 
 function checkLocalRibbons() {
