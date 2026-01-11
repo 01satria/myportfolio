@@ -1,5 +1,5 @@
 /*!
- * main.js v26.01.10 | @xdarkshan | Sateula template
+ * main.js v26.01.11 | @xdarkshan | Sateula template
  * javascript file for Sateula template
  * @license Copyright 2025, Sateula. All rights reserved.
  * Subject to the terms at sateula standard-license.
@@ -74,6 +74,10 @@ async function setLanguage(lang) {
 	document.cookie = `googtrans=/id/${lang}; path=/`;
 
 	applyTranslation();
+	window.scrollTo({
+		top: 0,
+		behavior: 'auto'
+	});
 
 	const idsToRemove = ['lapisanutama', 'instructionutama1', 'instructionutama2', 'language-switcher'];
 	idsToRemove.forEach(id => {
@@ -334,14 +338,17 @@ function showLayer(targetId) {
 		$main = $('#main'),
 		$main_articles = $main.children('article');
 
-	breakpoints({
-		xlarge: ['1281px', '1680px'],
-		large: ['981px', '1280px'],
-		medium: ['737px', '980px'],
-		small: ['481px', '736px'],
-		xsmall: ['361px', '480px'],
-		xxsmall: [null, '360px']
-	});
+	const isBreakpoint = (size) => {
+		const queries = {
+			xlarge: '(min-width: 1281px) and (max-width: 1680px)',
+			large: '(min-width: 981px) and (max-width: 1280px)',
+			medium: '(min-width: 737px) and (max-width: 980px)',
+			small: '(min-width: 481px) and (max-width: 736px)',
+			xsmall: '(min-width: 361px) and (max-width: 480px)',
+			xxsmall: '(max-width: 360px)'
+		};
+		return window.matchMedia(queries[size]).matches;
+	};
 
 	$window.on('load', function () {
 		if (window.location.hash) {
@@ -557,9 +564,34 @@ function showLayer(targetId) {
 		});
 })(jQuery);
 
+const handleResponsive = () => {
+	if (window.matchMedia('(max-width: 736px)').matches) {
+		// Logika untuk layar 'small' ke bawah
+		console.log("Mode Mobile Aktif");
+	} else {
+		// Logika untuk layar lebar
+		console.log("Mode Desktop Aktif");
+	}
+};
+
+// Jalankan saat pertama kali load dan saat layar di-resize
+window.addEventListener('resize', handleResponsive);
+handleResponsive();
+
 document.getElementById('home-btn').addEventListener('click', function (e) {
 	e.preventDefault();
-	window.location.hash = '';  // trigger hashchange
+	window.location.hash = '';
+});
+
+// Ganti blok breakpoints lama dengan ini
+const settings = {
+	// Anda bisa mengatur delay berbeda untuk mobile jika mau
+	delay: window.matchMedia('(max-width: 736px)').matches ? 250 : 325
+};
+
+// Listener jika ingin delay berubah saat browser ditarik
+window.addEventListener('resize', () => {
+	settings.delay = window.matchMedia('(max-width: 736px)').matches ? 250 : 325;
 });
 
 function updateActiveNav(currentId) {
