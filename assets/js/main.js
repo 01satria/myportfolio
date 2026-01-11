@@ -7,7 +7,7 @@
  */
 
 const loadStartTime = performance.now();
-let currentLang = localStorage.getItem('selectedLang') || 'en';
+let currentLang = localStorage.getItem('selectedLang') || 'id';
 
 async function applyTranslation() {
 	const selectEl = document.querySelector('.goog-te-combo');
@@ -62,7 +62,7 @@ window.addEventListener('load', () => {
 		attempts++;
 		if (attempts > 100) {
 			clearInterval(checkGoogleTranslate);
-			removeLoadingScreen("Timed out");
+			removeLoadingScreen("Gagal mengubah bahasa");
 		}
 	}, 100);
 });
@@ -70,7 +70,7 @@ async function setLanguage(lang) {
 	currentLang = lang;
 	localStorage.setItem('selectedLang', lang);
 
-	document.cookie = `googtrans=/en/${lang}; path=/`;
+	document.cookie = `googtrans=/id/${lang}; path=/`;
 
 	applyTranslation();
 

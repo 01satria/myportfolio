@@ -1487,8 +1487,8 @@ html {
 }
 
 .skill-header img {
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height: 45px;
     object-fit: contain;
 }
 
@@ -1506,19 +1506,30 @@ html {
 }
 
 .tag {
-    background-color: rgba(54, 54, 54, 0.397);
+    background-color: rgba(0, 0, 0, 0.397);
     color: white;
-    padding: 0px 6px;
-    border-radius: 20px;
+    padding: 5px;
+    border-radius: 10px;
     font-size: 0.9rem;
     font-weight: 400;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    justify-content: center;
+    justify-items: center;
+    justify-self: center;
+    place-content: center;
+    place-self: center;
+}
+
+.tag img {
+    width: 35px;
+    height: 35px;
+    vertical-align: middle;
 }
 
 .tag:hover {
-    background-color: var(--color-accent);
+    background-color: black;
     color: white;
 }
 
