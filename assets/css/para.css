@@ -701,7 +701,7 @@ body {
     }
 
     .glass-bar {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 
 }
@@ -717,7 +717,7 @@ body {
     }
 
     .glass-bar {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .glass-bar__p-img {
@@ -739,7 +739,7 @@ body {
     }
 
     .glass-bar {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .glass-bar__p-img {
