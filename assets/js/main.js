@@ -36,16 +36,24 @@ async function removeLoadingScreen(duration) {
 	}
 }
 
+
 window.addEventListener('load', () => {
 	const loadingText = document.getElementById('loading-text');
+	const progressBar = document.getElementById('progress-bar');
+	const maxAttempts = 100;
 	loadingText.innerText = "Mengubah bahasa...";
 
 	let attempts = 0;
 	const checkGoogleTranslate = setInterval(() => {
 		const selectEl = document.querySelector('.goog-te-combo');
-
 		const currentElapsed = ((performance.now() - loadStartTime) / 1000).toFixed(1);
 		loadingText.innerText = `Mengubah bahasa... (${currentElapsed}s)`;
+
+		let percentage = Math.floor((attempts / maxAttempts) * 100);
+
+		if (progressBar) progressBar.style.width = '50%';
+		if (progressBar) progressBar.style.width = percentage + '%';
+		if (loadingText) loadingText.innerText = `Menyiapkan bahasa... (${percentage}%)`;
 
 		if (selectEl) {
 			selectEl.value = currentLang;
@@ -58,9 +66,11 @@ window.addEventListener('load', () => {
 			removeLoadingScreen(totalLoadTime);
 			console.clear();
 		}
+		console.clear();
 
+		if (progressBar) progressBar.style.width = '100%';
 		attempts++;
-		if (attempts > 100) {
+		if (attempts > maxAttempts) {
 			clearInterval(checkGoogleTranslate);
 			removeLoadingScreen("Gagal mengubah bahasa");
 		}
@@ -1170,10 +1180,6 @@ async function reloadpost(postId) {
         <div class="post-full-container">
             <h1 class="post-judul">${postDetail.judul}</h1>      
             <div class="container-post-page">
-                <img class="icon-post-page" src="${postDetail.image}">
-                <p style="align-self: center; height: 100%; border-right: 2px solid #ffffff15;"></p>
-                <p translate="no">Satria Bagus</p>
-                <p style="align-self: center; height: 4px; border-radius: 100%; border-right: 4px solid #ffffff;"></p>
                 <p class="post-date">${formatDateToShortMonth(postDetail.waktu)}</p>
             </div>
             <div class="post-body">
@@ -1327,15 +1333,6 @@ document.getElementById('glass-bar').onmouseleave = () => {
 };
 
 // GALLERY JS
-/*!
- * gallery.js v26.01.07
- * javascript file for Sateula template
- * 
- * @license Copyright 2025, Sateula. All rights reserved.
- * Subject to the terms at sateula standard-license.
- * @author: xdarkshan, sateula
- */
-
 
 document.addEventListener("DOMContentLoaded", () => {
 	const noResultsMessage = document.getElementById("noResultsMessage");
@@ -1614,4 +1611,40 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 
 	initGallery();
+});
+
+const triggers = document.querySelectorAll('#propic1, #propic2');
+const modal = document.getElementById('descModal');
+const content = document.getElementById('modalContent');
+const closeBtn = document.getElementById('closeBtn');
+
+triggers.forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+        // Mencegah klik menembus ke elemen lain
+        e.stopPropagation();
+        
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+
+        setTimeout(() => {
+            content.classList.remove('opacity-0', 'scale-90');
+            content.classList.add('opacity-100', 'scale-100');
+        }, 10);
+    });
+});
+
+// Fungsi Tutup
+const closeCloud = () => {
+    content.classList.add('opacity-0', 'scale-90');
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }, 300);
+};
+
+closeBtn.onclick = closeCloud;
+
+// Tutup jika klik di luar awan
+window.addEventListener('click', (e) => {
+    if (!modal.contains(e.target)) closeCloud();
 });
