@@ -629,54 +629,54 @@
 	<script type="text/javascript"
 		src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 	<script>
-		// document.addEventListener('selectstart', function (e) {
-		// 	e.preventDefault();
-		// });
-		// document.addEventListener('keydown', function (e) {
-		// 	if (e.key === "F12" || e.keyCode === 123) {
-		// 		e.preventDefault();
-		// 		e.stopImmediatePropagation();
-		// 		return false;
-		// 	}
+		document.addEventListener('selectstart', function (e) {
+			e.preventDefault();
+		});
+		document.addEventListener('keydown', function (e) {
+			if (e.key === "F12" || e.keyCode === 123) {
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				return false;
+			}
 
-		// 	if (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C" || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
-		// 		e.preventDefault();
-		// 		e.stopImmediatePropagation();
-		// 		return false;
-		// 	}
+			if (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C" || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				return false;
+			}
 
-		// 	if (e.ctrlKey && (e.key === "u" || e.keyCode === 85)) {
-		// 		e.preventDefault();
-		// 		e.stopImmediatePropagation();
-		// 		return false;
-		// 	}
+			if (e.ctrlKey && (e.key === "u" || e.keyCode === 85)) {
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				return false;
+			}
 
-		// 	if (e.ctrlKey && (e.key === "s" || e.keyCode === 83)) {
-		// 		e.preventDefault();
-		// 		e.stopImmediatePropagation();
-		// 		return false;
-		// 	}
-		// }, true);
+			if (e.ctrlKey && (e.key === "s" || e.keyCode === 83)) {
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				return false;
+			}
+		}, true);
 
-		// setInterval(function () {
-		// 	debugger;
-		// }, 100);
+		setInterval(function () {
+			debugger;
+		}, 100);
 
-		// (function () {
-		// 	const devtoolsDetector = function () {
-		// 		const start = new Date();
-		// 		debugger;
-		// 		const end = new Date();
-		// 		if (end - start > 100) {
-		// 			document.body.innerHTML = "LU GAUSA LIAT LIAT YA!";
-		// 		}
-		// 	};
-		// 	setInterval(devtoolsDetector, 500);
-		// })();
+		(function () {
+			const devtoolsDetector = function () {
+				const start = new Date();
+				debugger;
+				const end = new Date();
+				if (end - start > 100) {
+					document.body.innerHTML = "LU GAUSA LIAT LIAT YA!";
+				}
+			};
+			setInterval(devtoolsDetector, 500);
+		})();
 
-		// document.addEventListener('contextmenu', function (e) {
-		// 	e.preventDefault();
-		// });
+		document.addEventListener('contextmenu', function (e) {
+			e.preventDefault();
+		});
 
 		const scrollBtn = document.getElementById("backtup");
 		const music = document.getElementById("buttonmusic");
