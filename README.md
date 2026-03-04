@@ -10,7 +10,7 @@
 [![GitHub top language](https://img.shields.io/badge/Language%20Core-HTML+CSS-blue)](https://github.com/shantant/me)
 [![Profile Views](https://komarev.com/ghpvc/?username=shantant&label=Profile%20views&color=000000&style=flat)](https://github.com/shantant/me)
 
-
+![preview](public/image/image.jpg)
 ## 💡 About The Project
 
 Step inside, and witness the pulse of ideas transforming from silent contemplation into an architecture of light on the screen.
